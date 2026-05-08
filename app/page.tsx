@@ -12,21 +12,24 @@ export default function Home() {
         {/* WhatsApp Floating Button */}
         <a href="https://wa.me/923440708494" className="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contact on WhatsApp">
           <svg viewBox="0 0 32 32" width="35" height="35" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16.002 2.016c-7.72 0-13.984 6.264-13.984 13.984 0 2.456.632 4.84 1.832 6.952L2.01 29.984l7.184-1.888c2.048 1.104 4.344 1.688 6.808 1.688 7.72 0 13.984-6.264 13.984-13.984S23.722 2.016 16.002 2.016zm0 25.608c-2.128 0-4.208-.568-6.024-1.648l-.432-.256-4.48 1.176 1.192-4.368-.28-.448A11.582 11.582 0 0 1 4.418 16c0-6.392 5.2-11.592 11.592-11.592S27.602 9.608 27.602 16c0 6.392-5.2 11.592-11.6 11.592zm6.368-8.712c-.352-.176-2.072-1.024-2.392-1.144-.32-.12-.552-.176-.784.176-.232.352-.904 1.144-1.104 1.376-.208.232-.416.264-.768.088a9.493 9.493 0 0 1-2.792-1.72 10.457 10.457 0 0 1-1.928-2.4c-.208-.352-.024-.544.152-.72.16-.16.352-.408.528-.616.176-.208.232-.352.352-.584.12-.232.064-.44-.024-.616-.088-.176-.784-1.896-1.072-2.592-.288-.68-.576-.584-.784-.592h-.672c-.232 0-.608.088-.928.44-.32.352-1.224 1.192-1.224 2.904 0 1.712 1.256 3.368 1.432 3.6.176.232 2.456 3.744 5.944 5.248.832.36 1.48.576 1.984.736.832.264 1.592.224 2.192.136.672-.096 2.072-.848 2.36-1.664.288-.816.288-1.52.208-1.664-.08-.152-.312-.24-.664-.416z" />
-          </svg>
+            <path d="M16.002 2.016c-7.72 0-13.984 6.264-13.984 13.984 0 2.456.632 4.84 1.832 6.952L2.01 29.984l7.184-1.888c2.048 1.104 4.344 1.688 6.808 1.688 7.72 0 13.984-6.264 13.984-13.984S23.[...]
+            </svg>
         </a>
 
         {/* Hero Section */}
         <AnimatedSection className="hero-section" id="home">
           <img src="/hero_bg.png" alt="" className="hero-bg-image" />
           <div className="hero-content">
+            <div style={{ marginBottom: '2rem' }}>
+              <Image src="/logo.png" alt="Ali CNC Logo" width={120} height={120} style={{ margin: '0 auto', filter: 'drop-shadow(0 0 20px rgba(212, 175, 55, 0.3))' }} />
+            </div>
             <h2 className="hero-greeting">Hi, I&apos;m Muhammad Ali</h2>
             <h1 className="hero-title">
               High-Precision <span className="gradient-text">3D Modeling</span> & <br />
               CNC Fabrication Specialist
             </h1>
             <p className="hero-description">
-              Based in Rawalpindi, Pakistan. Expert in CAD Design, Design for Manufacturing, and CNC Programming. Turning complex ideas into flawless physical products.
+              Based in Rawalpindi, Pakistan. Expert in CAD Design, Design for Manufacturing, and CNC Programming. Turning complex ideas into flawless physical products with precision engineering.
             </p>
             <div className="hero-actions">
               <a href="#projects" className="btn-primary">View My Work</a>
