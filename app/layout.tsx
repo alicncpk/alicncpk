@@ -10,7 +10,10 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Ali CNC Pakistan | High-Precision 3D Modeling & CNC Specialist",
-  description: "Portfolio of Raja Muhammad A. (thealidev), an expert in High-Precision 3D Modeling, CNC Fabrication, and CAD Design based in Rawalpindi, Pakistan.",
+  description: "Portfolio of Muhammad Ali (thealidev), an expert in High-Precision 3D Modeling, CNC Fabrication, and CAD Design based in Rawalpindi, Pakistan.",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({
@@ -20,6 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable}`} suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/logo.png" />
+      </head>
       <body>
         <Providers>
           <div className="app-container">
