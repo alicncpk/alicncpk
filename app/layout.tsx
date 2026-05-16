@@ -13,10 +13,10 @@ export const metadata: Metadata = {
     default: "Ali CNC Pakistan | High-Precision 3D Modeling & CNC Specialist",
     template: "%s | Ali CNC Pakistan"
   },
-  description: "Expert High-Precision 3D Modeling, CNC Fabrication, and CAD Design services by Muhammad Ali in Rawalpindi, Pakistan. Specialized in DFM and CNC Programming.",
+  description: "Expert High-Precision 3D Modeling, CNC Fabrication, and CAD Design services by Ali CNC Pakistan in Rawalpindi. Specialized in DFM and CNC Programming.",
   keywords: ["CNC Pakistan", "3D Modeling", "CAD Design", "CNC Fabrication", "Rawalpindi CNC", "Precision Engineering"],
-  authors: [{ name: "Muhammad Ali" }],
-  creator: "Muhammad Ali",
+  authors: [{ name: "Ali CNC Pakistan" }],
+  creator: "Ali CNC Pakistan",
   icons: {
     icon: "/logo_final.png",
     apple: "/logo_final.png",

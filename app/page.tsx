@@ -17,24 +17,23 @@ export default function Home() {
             <div style={{ marginBottom: '2rem' }}>
               <Image src="/logo_final.png" alt="Ali CNC Logo" width={220} height={120} priority style={{ margin: '0 auto', objectFit: 'contain', height: 'auto' }} />
             </div>
-            <h2 className="hero-greeting">Hi, I&apos;m Muhammad Ali</h2>
+            <h2 className="hero-greeting">Welcome to Ali CNC Pakistan</h2>
             <h1 className="hero-title">
               High-Precision <span className="gradient-text">3D Modeling</span> &amp; <br />
-              CNC Fabrication Specialist
+              CNC Fabrication Firm
             </h1>
             <p className="hero-description">
-              Based in Rawalpindi, Pakistan. Expert in CAD Design, Design for Manufacturing, and CNC Programming. Turning complex ideas into flawless physical products with precision engineering.
+              Bridges the gap between digital CAD modeling and physical industrial fabrication. Founded by Raja Muhammad Ali Asghar, Ali CNC Pakistan specializes in 2D/2.5D vector creation, 3D relief modeling, and high-precision CNC manufacturing.
             </p>
             <div className="hero-actions">
               <a href="/contact" className="btn-primary">Start a Project</a>
-              <a href="#projects" className="btn-outline">View My Work</a>
             </div>
           </div>
         </AnimatedSection>
 
         {/* Services Section */}
         <AnimatedSection className="section" id="services">
-          <h2 className="section-title">My <span className="gradient-text">Expertise</span></h2>
+          <h2 className="section-title">Our <span className="gradient-text">Expertise</span></h2>
           <div className="grid-3">
             <AnimatedCard className="glass-panel service-card" delay={0.1}>
               <Layers className="service-icon" size={40} />
@@ -54,43 +53,6 @@ export default function Home() {
           </div>
         </AnimatedSection>
 
-        {/* Projects Section */}
-        <AnimatedSection className="section" id="projects">
-          <h2 className="section-title">Featured <span className="gradient-text">Projects</span></h2>
-          <div className="grid-2">
-            <AnimatedCard className="glass-panel project-card" delay={0.1}>
-              <div className="project-image-wrapper">
-                <Image src="/projects_bg.png" alt="Project Network" width={400} height={250} style={{ width: '100%', height: 'auto', objectFit: 'cover', opacity: 0.5 }} />
-                <div className="project-image-placeholder" style={{ position: 'relative', background: 'transparent' }}>
-                  <span>Center-Weighted Shaker Whisk</span>
-                </div>
-              </div>
-              <div className="project-content">
-                <h3>Photorealistic Cutaway Render</h3>
-                <p>Detailed photorealistic cutaway render of a center-weighted shaker whisk, showcasing intricate internal components and manufacturing readiness.</p>
-                <a href="https://www.cadcrowd.com/entries/3751-212733-photorealistic-cutaway-render-of-center-weighted" target="_blank" rel="noreferrer" className="project-link">
-                  View Entry <ExternalLink size={16} />
-                </a>
-              </div>
-            </AnimatedCard>
-            <AnimatedCard className="glass-panel project-card" delay={0.2}>
-              <div className="project-image-wrapper">
-                <Image src="/services_bg.png" alt="Project Blueprint" width={400} height={250} style={{ width: '100%', height: 'auto', objectFit: 'cover', opacity: 0.5 }} />
-                <div className="project-image-placeholder alt" style={{ position: 'relative', background: 'transparent' }}>
-                  <span>Halora Object System</span>
-                </div>
-              </div>
-              <div className="project-content">
-                <h3>Modular Premium Object System</h3>
-                <p>Design of a modular, premium signature object system for Halora, integrating aesthetics with highly functional mechanical constraints.</p>
-                <a href="https://www.cadcrowd.com/entries/3724-212733-design-a-modular-premium-signature-object-system" target="_blank" rel="noreferrer" className="project-link">
-                  View Entry <ExternalLink size={16} />
-                </a>
-              </div>
-            </AnimatedCard>
-          </div>
-        </AnimatedSection>
-
         {/* Experience & Education Section */}
         <AnimatedSection className="section" id="experience">
           <h2 className="section-title">Experience &amp; <span className="gradient-text">Certifications</span></h2>
@@ -99,12 +61,21 @@ export default function Home() {
               <AnimatedCard className="timeline-item glass-panel" delay={0.1}>
                 <Award className="timeline-icon" size={24} />
                 <div className="timeline-content">
-                  <h4>Umer CNC Intern</h4>
-                  <h5>Umer CNC</h5>
-                  <p className="timeline-date">Sep 2025 – Present</p>
+                  <h4>CEO & Founder</h4>
+                  <h5>Ali CNC Pakistan</h5>
+                  <p className="timeline-date">May 2026 – Present</p>
+                  <p style={{ fontSize: '0.9rem', opacity: 0.8, marginTop: '0.5rem' }}>Led by Raja Muhammad Ali Asghar, specializing in bridging digital design with physical industrial fabrication.</p>
                 </div>
               </AnimatedCard>
               <AnimatedCard className="timeline-item glass-panel" delay={0.2}>
+                <Award className="timeline-icon" size={24} />
+                <div className="timeline-content">
+                  <h4>Umer CNC Intern</h4>
+                  <h5>Umer CNC</h5>
+                  <p className="timeline-date">Sep 2025 – May 2026</p>
+                </div>
+              </AnimatedCard>
+              <AnimatedCard className="timeline-item glass-panel" delay={0.3}>
                 <Award className="timeline-icon" size={24} />
                 <div className="timeline-content">
                   <h4>CAD - TITAN-3M &amp; 2M Certificates</h4>
@@ -112,7 +83,7 @@ export default function Home() {
                   <p className="timeline-date">Apr 2026 – Present</p>
                 </div>
               </AnimatedCard>
-              <AnimatedCard className="timeline-item glass-panel" delay={0.3}>
+              <AnimatedCard className="timeline-item glass-panel" delay={0.4}>
                 <Award className="timeline-icon" size={24} />
                 <div className="timeline-content">
                   <h4>Freelancer Registration</h4>
@@ -134,7 +105,7 @@ export default function Home() {
             <p>Ready to turn your ideas into high-precision reality? Get in touch today.</p>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '1rem' }}>
               <a href="/contact" className="btn-primary">
-                Contact Me
+                Contact Us
               </a>
             </div>
           </div>

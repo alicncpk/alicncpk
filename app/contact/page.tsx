@@ -14,7 +14,7 @@ export default function ContactPage() {
           <div className="contact-container">
             <h1 className="hero-title"><span className="gradient-text">Get in Touch</span></h1>
             <p className="hero-description">
-              Have a project in mind? Whether it's a high-precision 3D model or a full CNC production run, I'm ready to help you bring it to life.
+              Have a project in mind? Whether it&apos;s a high-precision 3D model or a full CNC production run, Ali CNC Pakistan is ready to help you bring it to life.
             </p>
 
             <div className="contact-grid">
@@ -52,7 +52,7 @@ export default function ContactPage() {
                   </div>
                   <div className="method-info">
                     <h3>CadCrowd</h3>
-                    <p>Official portfolio & hire me platform</p>
+                    <p>Official portfolio & hire us platform</p>
                     <a href="https://www.cadcrowd.com/profile/212733-thealidev" target="_blank" rel="noreferrer" className="btn-outline full-width">
                       Visit Profile
                     </a>
@@ -105,7 +105,7 @@ export default function ContactPage() {
                     </div>
                     <div className="form-group">
                       <label htmlFor="message">Message</label>
-                      <textarea id="message" name="message" rows={5} placeholder="Tell me about your project..." required></textarea>
+                      <textarea id="message" name="message" rows={5} placeholder="Tell us about your project..." required></textarea>
                     </div>
                     <button type="submit" className="btn-primary submit-btn">
                       <Send size={18} style={{ marginRight: '8px' }} />

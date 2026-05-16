@@ -33,7 +33,6 @@ export default function Navbar() {
         
         <div className={`nav-links ${menuOpen ? "open" : ""}`}>
           <a href="/#services" onClick={() => setMenuOpen(false)}>Services</a>
-          <a href="/#projects" onClick={() => setMenuOpen(false)}>Projects</a>
           <a href="/#experience" onClick={() => setMenuOpen(false)}>Experience</a>
           
           {mounted && (
