@@ -6,6 +6,9 @@ USER root
 
 WORKDIR /app
 
+# Set Puppeteer cache directory to project folder
+ENV PUPPETEER_CACHE_DIR=/app/.cache
+
 # Copy package files
 COPY package*.json ./
 
