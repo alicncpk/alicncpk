@@ -11,6 +11,14 @@ import path from "path";
 import fetch from "node-fetch";
 import PDFDocument from "pdfkit";
 import cron from "node-cron";
+import ws from "ws";
+import os from "os";
+
+// 0. WebSocket polyfill for older Node versions (realtime client dependency)
+if (typeof global.WebSocket === "undefined") {
+  global.WebSocket = ws;
+}
+
 
 const { Client, LocalAuth } = pkg;
 
@@ -115,6 +123,47 @@ async function loadSessionFromSupabase() {
   }
 }
 
+// Cross-platform helper to resolve Chrome executable path
+function getChromePath() {
+  if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+    return process.env.PUPPETEER_EXECUTABLE_PATH;
+  }
+  
+  const platform = process.platform;
+  if (platform === "win32") {
+    const paths = [
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+      path.join(os.homedir(), "AppData\\Local\\Google\\Chrome\\Application\\chrome.exe"),
+      "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe",
+    ];
+    for (const p of paths) {
+      if (fs.existsSync(p)) return p;
+    }
+  } else if (platform === "darwin") {
+    const paths = [
+      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+      "/Applications/Chromium.app/Contents/MacOS/Chromium",
+    ];
+    for (const p of paths) {
+      if (fs.existsSync(p)) return p;
+    }
+  } else {
+    // Linux
+    const paths = [
+      "/usr/bin/google-chrome-stable",
+      "/usr/bin/google-chrome",
+      "/usr/bin/chromium",
+      "/usr/bin/chromium-browser",
+      "/usr/bin/chrome",
+    ];
+    for (const p of paths) {
+      if (fs.existsSync(p)) return p;
+    }
+  }
+  return null;
+}
+
 // 4. Initialize WhatsApp Web Client
 async function initWhatsApp(phoneNumber = null) {
   if (whatsappClient) {
@@ -129,7 +178,7 @@ async function initWhatsApp(phoneNumber = null) {
     authStrategy: new LocalAuth(),
     puppeteer: {
       headless: true,
-      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || "/usr/bin/google-chrome-stable",
+      executablePath: getChromePath() || undefined,
       args: [
         "--no-sandbox",
         "--disable-setuid-sandbox",
@@ -328,6 +377,7 @@ async function scrapePublicCatalog(phoneNumber) {
     const puppeteer = (await import("puppeteer")).default;
     tempBrowser = await puppeteer.launch({
       headless: true,
+      executablePath: getChromePath() || undefined,
       args: ["--no-sandbox", "--disable-setuid-sandbox"]
     });
     const page = await tempBrowser.newPage();

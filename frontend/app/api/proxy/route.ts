@@ -20,7 +20,13 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    const data = await res.json();
+    const text = await res.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = { error: `Server returned non-JSON response: ${text.substring(0, 300)}` };
+    }
     return NextResponse.json(data, { status: res.status });
   } catch (err: any) {
     console.error("Backend proxy fetch error:", err);
@@ -51,7 +57,13 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify(body),
     });
 
-    const data = await res.json();
+    const text = await res.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = { error: `Server returned non-JSON response: ${text.substring(0, 300)}` };
+    }
     return NextResponse.json(data, { status: res.status });
   } catch (err: any) {
     console.error("Backend proxy post error:", err);
