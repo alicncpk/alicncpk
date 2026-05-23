@@ -224,3 +224,108 @@ body {
   .timeline-item { flex-direction: column; text-align: center; align-items: center; }
 }
 
+/* 🚨 emergency panic button & modal system */
+.panic-trigger {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.5);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.panic-trigger:hover {
+  transform: scale(1.08) translateY(-4px);
+  box-shadow: 0 15px 30px -5px rgba(239, 68, 68, 0.6);
+  background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+}
+
+.panic-trigger:active {
+  transform: scale(0.95);
+}
+
+.panic-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.panic-modal-content {
+  width: 100%;
+  max-width: 580px;
+  padding: 2.5rem;
+  border-radius: 24px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  box-shadow: 0 25px 50px -12px rgba(239, 68, 68, 0.25);
+  text-align: left;
+  position: relative;
+  background: rgba(15, 23, 42, 0.95);
+}
+
+.panic-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: var(--transition-smooth);
+}
+
+.panic-modal-close:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ef4444;
+}
+
+.panic-step-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.panic-step-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.panic-step-num {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  font-weight: 800;
+  font-size: 0.8rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+  display: inline-block;
+  min-width: 28px;
+  text-align: center;
+}
+
+
