@@ -43,6 +43,8 @@ async function translateTo(langCode, langName) {
     console.log(`- Already exists at ${outPath}. Skipping.`);
     return;
   }
+  
+  console.log(`- Translating and updating ${outPath}...`);
 
   const enDataStr = fs.readFileSync(enFilePath, "utf8");
 
