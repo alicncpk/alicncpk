@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon, Phone, Mail } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
@@ -24,7 +24,20 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+    <>
+      <div className="top-contact-bar">
+        <div className="top-contact-content">
+          <a href="https://wa.me/923440708494?text=Hi%20,%20I%20am%20coming%20from%20your%20website%20,%20Can%20i%20get%20more%20info%20about%20your%20business%20?" target="_blank" rel="noreferrer" className="top-contact-link">
+            <Phone size={13} style={{ marginRight: '6px' }} />
+            <span>+92 344 0708494</span>
+          </a>
+          <a href="mailto:thealidevmail@gmail.com" className="top-contact-link">
+            <Mail size={13} style={{ marginRight: '6px' }} />
+            <span>thealidevmail@gmail.com</span>
+          </a>
+        </div>
+      </div>
+      <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
       <div className="nav-content">
         <Link href="/" className="logo">
           {/* Using the vectorized logo */}
@@ -65,6 +78,7 @@ export default function Navbar() {
         </button>
       </div>
     </nav>
+  </>
   );
 }
 

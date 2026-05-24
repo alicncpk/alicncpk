@@ -1,5 +1,5 @@
 .navbar {
-  position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+  position: fixed; top: 36px; left: 0; width: 100%; z-index: 1000;
   padding: 1.25rem 1.5rem; transition: var(--transition-smooth);
 }
 .navbar.scrolled {
@@ -58,4 +58,61 @@
   }
   .nav-links.open .nav-btn { width: 100%; max-width: 300px; }
 }
+
+/* 📞 Sleek Top Contact Strip */
+.top-contact-bar {
+  background: var(--accent-gradient);
+  color: white;
+  width: 100%;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 8px 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1010;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  height: 36px;
+}
+
+.top-contact-content {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: 2rem;
+  align-items: center;
+}
+
+.top-contact-link {
+  color: white !important;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: opacity 0.2s ease;
+  font-weight: 700;
+}
+
+.top-contact-link:hover {
+  opacity: 0.85;
+}
+
+@media (max-width: 640px) {
+  .top-contact-bar {
+    padding: 8px 0.75rem;
+  }
+  .top-contact-content {
+    justify-content: center;
+    gap: 0.75rem;
+    font-size: 0.72rem;
+  }
+  .top-contact-link span {
+    font-size: 0.72rem;
+  }
+}
+
 

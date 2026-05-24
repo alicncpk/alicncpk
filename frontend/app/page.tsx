@@ -35,7 +35,7 @@ export default function Home() {
               {t("hero.description")}
             </p>
             <div className="hero-actions">
-              <a href="/contact" className="btn-primary">{t("hero.action")}</a>
+              <a href="/#contact" className="btn-primary">{t("hero.action")}</a>
             </div>
           </div>
         </AnimatedSection>
