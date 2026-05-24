@@ -498,7 +498,7 @@ body {
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1024px) and (min-width: 769px) {
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -522,6 +522,13 @@ body {
   .projects-grid > * {
     grid-column: span 1 !important;
     max-width: 100% !important;
+  }
+  /* Specificity reset to prevent tablet styles leaking into 1-col mobile views */
+  .projects-grid > *:nth-child(5) {
+    grid-column: span 1 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    width: 100% !important;
   }
 }
 

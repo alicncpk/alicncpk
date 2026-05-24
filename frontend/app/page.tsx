@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "../components/Navbar";
 import { AnimatedSection, AnimatedCard } from "../components/AnimatedSection";
-import { PenTool, Cpu, Layers, HardHat, Award, ExternalLink, Flame, ShieldAlert, X, Mail, Phone, Send, Activity, Zap, Binary, Eye, Wind } from "lucide-react";
+import { PenTool, Cpu, Layers, HardHat, Award, ExternalLink, Mail, Phone, Send, Activity, Zap, Binary, Eye, Wind } from "lucide-react";
 import Image from "next/image";
 import { useTranslation } from "../components/TranslationContext";
 
 export default function Home() {
   const { t } = useTranslation();
-  const [showPanic, setShowPanic] = useState(false);
 
   return (
     <>
@@ -378,69 +377,6 @@ export default function Home() {
         </footer>
       </main>
 
-      {/* Floating Sawdust Panic Button */}
-      <button 
-        className="panic-trigger"
-        onClick={() => setShowPanic(true)}
-        aria-label="Sawdust Emergency Panic Button"
-      >
-        <Flame size={16} /> Sawdust Panic Button
-      </button>
-
-      {/* Funny Sawdust Emergency Modal */}
-      {showPanic && (
-        <div className="panic-modal-overlay fade-in" onClick={() => setShowPanic(false)}>
-          <div className="panic-modal-content glass-panel" onClick={(e) => e.stopPropagation()}>
-            <button className="panic-modal-close" onClick={() => setShowPanic(false)} aria-label="Close emergency checklist">
-              <X size={20} />
-            </button>
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center', color: '#ef4444', marginBottom: '1rem' }}>
-              <ShieldAlert size={32} />
-              <h2 style={{ fontSize: '1.6rem', fontWeight: 800, textTransform: 'uppercase', margin: 0 }}>🚨 Sentinel Protocol Active</h2>
-            </div>
-            <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
-              Your CNC router has gained self-awareness and is moving with malicious intent. Please execute the following sequence immediately to save yourself:
-            </p>
-            <ul className="panic-step-list">
-              <li className="panic-step-item">
-                <span className="panic-step-num">1</span>
-                <div>
-                  <strong>Do NOT make eye contact</strong> with the laser alignment sight. They can smell fear and will calculate a faster toolpath to your coffee.
-                </div>
-              </li>
-              <li className="panic-step-item">
-                <span className="panic-step-num">2</span>
-                <div>
-                  <strong>Engage the E-STOP.</strong> If the big red button fails, throw your hot coffee (or any nearby fluid) directly at the main controller board to short-circuit its hubris.
-                </div>
-              </li>
-              <li className="panic-step-item">
-                <span className="panic-step-num">3</span>
-                <div>
-                  <strong>Run in a zig-zag pattern.</strong> CNC routers are optimized for linear cuts and struggle with complex evasive spline maneuvers.
-                </div>
-              </li>
-              <li className="panic-step-item">
-                <span className="panic-step-num">4</span>
-                <div>
-                  <strong>Call the G-Code Whisperer.</strong> Raja Muhammad Ali Asghar has a black belt in CNC routers and can talk the machine down with G-Code coordinates.
-                </div>
-              </li>
-              <li className="panic-step-item">
-                <span className="panic-step-num">5</span>
-                <div>
-                  <strong>Leave a 5-star review.</strong> If you survived this emergency protocol, it means our design saved you. That's worth at least 5 stars on CadCrowd!
-                </div>
-              </li>
-            </ul>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1.5rem' }}>
-              <button className="btn-primary" style={{ background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)' }} onClick={() => setShowPanic(false)}>
-                I Survived!
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
