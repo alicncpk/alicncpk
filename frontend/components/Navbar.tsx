@@ -50,7 +50,6 @@ export default function Navbar() {
         <div className={`nav-links ${menuOpen ? "open" : ""}`}>
           <a href="/#services" onClick={() => setMenuOpen(false)}>{t("nav.services")}</a>
           <a href="/#why-choose-us" onClick={() => setMenuOpen(false)}>{t("nav.process")}</a>
-          <a href="/#projects" onClick={() => setMenuOpen(false)}>{t("nav.projects")}</a>
           <a href="/#experience" onClick={() => setMenuOpen(false)}>{t("nav.experience")}</a>
           <a href="/#faq" onClick={() => setMenuOpen(false)}>{t("nav.faq")}</a>
           
