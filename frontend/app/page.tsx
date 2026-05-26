@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { AnimatedSection, AnimatedCard } from "../components/AnimatedSection";
 import { PenTool, Cpu, Layers, HardHat, Award, ExternalLink, Mail, Phone, Send } from "lucide-react";
@@ -9,6 +9,15 @@ import { useTranslation } from "../components/TranslationContext";
 
 export default function Home() {
   const { t } = useTranslation();
+
+  useEffect(() => {
+    // Silent background visitor traffic analytics tracking
+    fetch("/api/proxy?endpoint=/api/log-visit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ path: window.location.pathname })
+    }).catch((err) => console.error("Silent analytics tracking failed:", err));
+  }, []);
 
   return (
     <>

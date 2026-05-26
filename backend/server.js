@@ -512,28 +512,58 @@ setInterval(async () => {
 
 // 8. Daily Gemini AI Website Health Auditor & PDF Generator
 async function runDailyHealthCheck() {
-  console.log("Running Daily Gemini Website Health Audit...");
+  console.log("Running 10-Minute Gemini Website Health & Traffic Audit...");
   try {
     const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
     
     // Fetch frontend layout status
     let frontendStatus = "Unknown";
+    let frontendAccessibility = "Accessible";
     try {
       const res = await fetch(frontendUrl);
       frontendStatus = res.ok ? "Healthy (200 OK)" : `Error (${res.status})`;
     } catch (e) {
       frontendStatus = `Failed to Reach (${e.message})`;
+      frontendAccessibility = "Inaccessible";
     }
 
-    // Fetch recent database logs
+    // Fetch visitor logs within the last 10 minutes
+    const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+    const { data: visits } = await supabase
+      .from("system_logs")
+      .select("*")
+      .eq("type", "VISIT")
+      .gte("created_at", tenMinutesAgo);
+
+    const totalVisits = visits ? visits.length : 0;
+    const ipSet = new Set();
+    const pathCounts = {};
+
+    if (visits) {
+      visits.forEach(v => {
+        try {
+          const payload = JSON.parse(v.message);
+          if (payload.ip) ipSet.add(payload.ip);
+          if (payload.path) {
+            pathCounts[payload.path] = (pathCounts[payload.path] || 0) + 1;
+          }
+        } catch (e) {
+          // Fallback if message is plain text or invalid JSON
+          ipSet.add("unknown");
+        }
+      });
+    }
+    const uniqueVisitors = ipSet.size;
+
+    // Fetch recent logs (non-visit logs first for system status audit, but include some visit logs)
     const { data: logs } = await supabase
       .from("system_logs")
       .select("*")
       .order("created_at", { ascending: false })
-      .limit(20);
+      .limit(30);
 
     const logsSummary = logs && logs.length > 0 
-      ? JSON.stringify(logs, null, 2)
+      ? JSON.stringify(logs.filter(l => l.type !== "VISIT").slice(0, 15), null, 2)
       : "No system logs recorded.";
 
     // Send context to Gemini for analysis
@@ -541,12 +571,28 @@ async function runDailyHealthCheck() {
     let auditSummary = "Gemini Auditor not configured.";
 
     if (geminiApiKey) {
-      const prompt = `You are an automated website auditor. Review the following system status and recent logs for "Ali CNC Pakistan".
-Frontend URL Status: ${frontendStatus}
-Recent Logs:
+      const prompt = `You are a world-class AI website auditor and B2B system analytics analyst for "Ali CNC Pakistan".
+Review the following live system status and visitor logs captured in the last 10 minutes:
+
+- Frontend URL Status: ${frontendStatus}
+- Accessibility Check: ${frontendAccessibility}
+- WhatsApp Integration Status: ${clientStatus}
+
+Visitor Analytics (Last 10 Minutes):
+- Total Page Visits: ${totalVisits}
+- Unique Visitors (IP-based): ${uniqueVisitors}
+- Most Visited Paths: ${JSON.stringify(pathCounts)}
+
+Recent System Activity Logs:
 ${logsSummary}
 
-Please write a professional website audit assessment. Identify any system errors, catalog sync failures, or warnings. Provide recommendations if there are issues. Return only a clean, well-formatted response with no markdown tags.`;
+Changelog / System Updates:
+1. Added dynamic visitor logging and tracking system.
+2. Built Admin Google Analytics Tag manager panel and layout script injector.
+3. Updated AI auditor cron checking frequency to 10 minutes with email PDF reports.
+4. Embedded interactive codebase changelog timeline in admin dashboard.
+
+Please write a professional website audit assessment. Identify any system errors, catalog sync failures, or warnings. Analyze the visitor traffic patterns, and offer direct-response optimization ideas to improve the global B2B conversion rate. Keep the language direct, clear, and professional. Return only a clean, well-formatted response with no markdown tags.`;
 
       const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`,
@@ -576,11 +622,14 @@ Please write a professional website audit assessment. Identify any system errors
       doc.on("end", () => resolve(Buffer.concat(pdfBuffers)));
     });
 
+    const now = new Date();
+    const localTimeStr = now.toLocaleString("en-US", { timeZone: "Asia/Karachi" });
+
     // Write PDF layout
     doc.fontSize(22).fillColor("#0ea5e9").text("Ali CNC Pakistan", { align: "center" });
-    doc.fontSize(16).fillColor("#0f172a").text("Daily AI Health Audit Report", { align: "center" });
+    doc.fontSize(16).fillColor("#0f172a").text("10-Minute AI System Health & Traffic Report", { align: "center" });
     doc.moveDown();
-    doc.fontSize(10).fillColor("#475569").text(`Generated: ${new Date().toLocaleString()}`, { align: "right" });
+    doc.fontSize(10).fillColor("#475569").text(`Generated: ${localTimeStr} (PKT)`, { align: "right" });
     doc.moveDown();
 
     doc.fontSize(14).fillColor("#0ea5e9").text("1. Overall System Status");
@@ -589,11 +638,39 @@ Please write a professional website audit assessment. Identify any system errors
     doc.text(`WhatsApp Bridge Status: ${clientStatus}`);
     doc.moveDown();
 
-    doc.fontSize(14).fillColor("#0ea5e9").text("2. AI Auditor Assessment (Gemini)");
+    doc.fontSize(14).fillColor("#0ea5e9").text("2. 10-Minute Visitor Traffic Metrics");
+    doc.fontSize(11).fillColor("#0f172a").text(`Total Page Visits: ${totalVisits}`);
+    doc.text(`Unique Visitors (IP-based): ${uniqueVisitors}`);
+    doc.text(`Page Hit Frequencies:`);
+    Object.entries(pathCounts).forEach(([path, count]) => {
+      doc.text(`  - ${path}: ${count} hits`);
+    });
+    if (Object.keys(pathCounts).length === 0) {
+      doc.text(`  - No visitor traffic logged in the last 10 minutes.`);
+    }
+    doc.moveDown();
+
+    doc.fontSize(14).fillColor("#0ea5e9").text("3. AI Auditor Assessment (Gemini)");
     doc.fontSize(10).fillColor("#334155").text(auditSummary);
     doc.moveDown();
 
-    doc.fontSize(14).fillColor("#0ea5e9").text("3. Recent System Logs");
+    doc.fontSize(14).fillColor("#0ea5e9").text("4. Engineering Changelog Timeline");
+    const changelogItems = [
+      "- Monorepo restucturing: Separated backend and frontend perfectly into isolated builds.",
+      "- Supabase WhatsApp persistence: Stored WhatsApp sessions in Supabase to bypass Render container limits, with 10s auto-backup.",
+      "- Cloudinary dynamic catalog sync: Automatically linked catalog items and cached in Supabase database.",
+      "- Multi-language translation engine: Pre-translated all website copy into 8 languages using Gemini AI.",
+      "- B2B direct-response copywriting overhaul: Focused homepage copy on woodshop floor metrics, machine uptime, and maximizing yield.",
+      "- Mobile styling & UI overrides: Removed region-specific friction (KakaoTalk, Line removed), corrected project grid overlays.",
+      "- Dynamic Google Analytics settings: Saved and updated GA Measurement tags dynamically, and injected script in layout.",
+      "- Silent visitor traffic logging: Tracked visitors silently in the background and logged parameters to Supabase.",
+      "- 10-Minute AI Audit Engine: Switched cron interval to 10 minutes with beautifully formatted PDF reports."
+    ];
+    doc.fontSize(9).fillColor("#0f172a");
+    changelogItems.forEach(item => doc.text(item));
+    doc.moveDown();
+
+    doc.fontSize(14).fillColor("#0ea5e9").text("5. Recent System Logs");
     doc.fontSize(8).fillColor("#0f172a").text(logsSummary);
 
     doc.end();
@@ -602,31 +679,97 @@ Please write a professional website audit assessment. Identify any system errors
 
     // Send email report
     const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL;
+    const dateFormattedStr = now.toISOString().slice(0, 10);
+    const timeFormattedStr = now.toTimeString().slice(0, 8).replace(/:/g, "-");
+    const uniqueFilename = `ali_cnc_audit_${dateFormattedStr}_${timeFormattedStr}.pdf`;
+
     const { error: mailErr } = await resend.emails.send({
       from: "Ali CNC Auditor <onboarding@resend.dev>",
       to: adminEmail,
-      subject: `Daily AI Audit Report - ${new Date().toLocaleDateString()}`,
-      html: `<p>Please find attached the daily system health and logs assessment for Ali CNC Pakistan, compiled via Gemini AI.</p>`,
+      subject: `🕒 10-Minute AI Audit Report - ${localTimeStr}`,
+      html: `
+        <h3>Ali CNC System Audit Report</h3>
+        <p>A new 10-minute automated health check and visitor traffic assessment has been compiled via Gemini AI.</p>
+        <p><b>Report Time:</b> ${localTimeStr} (PKT)</p>
+        <p>Please find the comprehensive audit and engineering changelog attached as a PDF.</p>
+      `,
       attachments: [
         {
-          filename: `ali_cnc_audit_${new Date().toISOString().slice(0,10)}.pdf`,
+          filename: uniqueFilename,
           content: pdfBuffer
         }
       ]
     });
 
-    if (mailErr) console.error("Error sending daily report:", mailErr);
-    else console.log("Daily health report emailed successfully.");
+    if (mailErr) console.error("Error sending 10-minute report:", mailErr);
+    else console.log(`10-minute health report emailed successfully as ${uniqueFilename}`);
 
   } catch (err) {
-    console.error("Failed to run daily health check:", err);
+    console.error("Failed to run 10-minute health check:", err);
   }
 }
 
-// Cron scheduler for daily checks (every midnight)
-cron.schedule("0 0 * * *", runDailyHealthCheck);
+// Cron scheduler for 10-minute checks
+cron.schedule("*/10 * * * *", runDailyHealthCheck);
 
 // 9. API Routes Configuration
+
+// Silent visitor logging endpoint
+app.post("/api/log-visit", authenticateApiKey, async (req, res) => {
+  const userAgent = req.headers["user-agent"] || "unknown";
+  const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress || "unknown";
+  const { path = "/" } = req.body;
+  
+  try {
+    const { error } = await supabase.from("system_logs").insert({
+      type: "VISIT",
+      message: JSON.stringify({ ip, userAgent, path, timestamp: new Date().toISOString() }),
+      status: "SUCCESS"
+    });
+    
+    if (error) throw error;
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Failed to log visit:", err);
+    res.status(500).json({ error: "Failed to log visit" });
+  }
+});
+
+// Settings Endpoints for Google Analytics Tag
+app.get("/api/settings/google-analytics", authenticateApiKey, async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("whatsapp_sessions")
+      .select("session_data")
+      .eq("id", "google_analytics_tag")
+      .maybeSingle();
+      
+    if (error) throw error;
+    res.json({ tag: data ? data.session_data : "" });
+  } catch (err) {
+    console.error("Failed to fetch GA tag:", err);
+    res.status(500).json({ error: "Failed to fetch Google Analytics tag" });
+  }
+});
+
+app.post("/api/settings/google-analytics", authenticateApiKey, async (req, res) => {
+  const { tag } = req.body;
+  try {
+    const { error } = await supabase
+      .from("whatsapp_sessions")
+      .upsert({
+        id: "google_analytics_tag",
+        session_data: tag || "",
+        updated_at: new Date().toISOString()
+      });
+      
+    if (error) throw error;
+    res.json({ success: true, tag });
+  } catch (err) {
+    console.error("Failed to save GA tag:", err);
+    res.status(500).json({ error: "Failed to save Google Analytics tag" });
+  }
+});
 
 // Public Health Check
 app.get("/health", (req, res) => {

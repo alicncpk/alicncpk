@@ -6,7 +6,7 @@ import { createClient } from "../../../lib/supabase/client";
 import Navbar from "../../../components/Navbar";
 import { 
   Phone, RefreshCw, LogOut, CheckCircle2, AlertTriangle, 
-  RefreshCcw, ShieldAlert, Cpu, HeartPulse, Sparkles 
+  RefreshCcw, ShieldAlert, Cpu, HeartPulse, Sparkles, History 
 } from "lucide-react";
 import "./admin.css";
 
@@ -341,6 +341,65 @@ export default function AdminDashboard() {
               </div>
             </div>
           </div>
+
+          {/* Engineering Changelog Timeline */}
+          <div className="changelog-panel glass-panel" style={{ marginTop: "2.5rem", textAlign: "left", padding: "2rem" }}>
+            <h3 className="card-title" style={{ borderBottom: "1px solid var(--border-color)", paddingBottom: "1rem", display: "flex", gap: "10px", alignItems: "center", marginBottom: "1rem" }}>
+              <History size={20} style={{ color: "var(--accent-color)" }} />
+              System Changelog & Developer Milestones
+            </h3>
+            <p style={{ fontSize: "0.9rem", color: "var(--text-secondary)", marginBottom: "2rem" }}>
+              This timeline lists the developer updates, B2B CRO copywriting optimizations, and monitoring features implemented across the Ali CNC platform.
+            </p>
+
+            <div className="timeline">
+              <div className="timeline-item">
+                <div className="timeline-badge">v1.4.0</div>
+                <div className="timeline-content">
+                  <h4>Real-Time Analytics & AI Monitoring Upgrade</h4>
+                  <span className="timeline-date">May 26, 2026</span>
+                  <p>Upgraded backend audit checks to a 10-minute frequency, logging live visitor traffic silently, generating date-time structured PDF attachments, and presenting this developer changelog panel inside the admin dashboard.</p>
+                </div>
+              </div>
+
+              <div className="timeline-item">
+                <div className="timeline-badge">v1.3.0</div>
+                <div className="timeline-content">
+                  <h4>High-Converting B2B Direct-Response Copywriting</h4>
+                  <span className="timeline-date">May 25, 2026</span>
+                  <p>Overhauled frontend English text block to speak directly to woodshop owners and CAD/CAM managers. Replaced academic contest jargon with high-yield manufacturing metrics (bit protection, downtime prevention, G-code parameters, Nesting density) and pre-translated all copy across 8 languages.</p>
+                </div>
+              </div>
+
+              <div className="timeline-item">
+                <div className="timeline-badge">v1.2.0</div>
+                <div className="timeline-content">
+                  <h4>Mobile Spacing, Responsive Grid & Reassurance Micro-copy</h4>
+                  <span className="timeline-date">May 24, 2026</span>
+                  <p>Adjusted responsive grids to handle 3-axis project items, added dynamic local time reassuring micro-copy under WhatsApp triggers, and cleaned region-specific apps (KakaoTalk, Line) to eliminate outsourcing friction.</p>
+                </div>
+              </div>
+
+              <div className="timeline-item">
+                <div className="timeline-badge">v1.1.0</div>
+                <div className="timeline-content">
+                  <h4>Supabase Session persistence & Cloudinary Catalog sync</h4>
+                  <span className="timeline-date">May 23, 2026</span>
+                  <p>Created an automated script that stores serialized WhatsApp Web local authentication sessions inside a Supabase database (to survive Render container restarts), syncing WhatsApp Business product catalogs automatically to Cloudinary.</p>
+                </div>
+              </div>
+
+              <div className="timeline-item">
+                <div className="timeline-badge">v1.0.0</div>
+                <div className="timeline-content">
+                  <h4>Monorepo Restructuring & Base API Bridge</h4>
+                  <span className="timeline-date">May 22, 2026</span>
+                  <p>Separated Next.js client layout and Express API backend, configuring CORS, environment variable interfaces, and establishing the database connection bridges.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </main>
     </>
