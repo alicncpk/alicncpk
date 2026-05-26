@@ -6,7 +6,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useTranslation } from "./TranslationContext";
-import LanguageSelector from "./LanguageSelector";
 import "./Navbar.css";
 
 export default function Navbar() {
@@ -63,8 +62,6 @@ export default function Navbar() {
                 {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
               </button>
             )}
-            
-            <LanguageSelector />
           </div>
 
           <a href="/#contact" className="btn-primary nav-btn" onClick={() => setMenuOpen(false)}>
