@@ -358,7 +358,7 @@ export default function AdminDashboard() {
                 <div className="timeline-content">
                   <h4>Real-Time Analytics & AI Monitoring Upgrade</h4>
                   <span className="timeline-date">May 26, 2026</span>
-                  <p>Upgraded backend audit checks to a 10-minute frequency, logging live visitor traffic silently, generating date-time structured PDF attachments, and presenting this developer changelog panel inside the admin dashboard.</p>
+                  <p>Upgraded backend audit checks to a 6-hour frequency, logging live visitor traffic silently, generating date-time structured PDF attachments, and presenting this developer changelog panel inside the admin dashboard.</p>
                 </div>
               </div>
 

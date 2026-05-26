@@ -510,9 +510,9 @@ setInterval(async () => {
   }
 }, 30000);
 
-// 8. Daily Gemini AI Website Health Auditor & PDF Generator
+// 8. 6-Hour Gemini AI Website Health Auditor & PDF Generator
 async function runDailyHealthCheck() {
-  console.log("Running 10-Minute Gemini Website Health & Traffic Audit...");
+  console.log("Running 6-Hour Gemini Website Health & Traffic Audit...");
   try {
     const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
     
@@ -527,13 +527,13 @@ async function runDailyHealthCheck() {
       frontendAccessibility = "Inaccessible";
     }
 
-    // Fetch visitor logs within the last 10 minutes
-    const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+    // Fetch visitor logs within the last 6 hours
+    const sixHoursAgo = new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString();
     const { data: visits } = await supabase
       .from("system_logs")
       .select("*")
       .eq("type", "VISIT")
-      .gte("created_at", tenMinutesAgo);
+      .gte("created_at", sixHoursAgo);
 
     const totalVisits = visits ? visits.length : 0;
     const ipSet = new Set();
@@ -572,13 +572,13 @@ async function runDailyHealthCheck() {
 
     if (geminiApiKey) {
       const prompt = `You are a world-class AI website auditor and B2B system analytics analyst for "Ali CNC SMC Ptv Ltd".
-Review the following live system status and visitor logs captured in the last 10 minutes:
+Review the following live system status and visitor logs captured in the last 6 hours:
 
 - Frontend URL Status: ${frontendStatus}
 - Accessibility Check: ${frontendAccessibility}
 - WhatsApp Integration Status: ${clientStatus}
 
-Visitor Analytics (Last 10 Minutes):
+Visitor Analytics (Last 6 Hours):
 - Total Page Visits: ${totalVisits}
 - Unique Visitors (IP-based): ${uniqueVisitors}
 - Most Visited Paths: ${JSON.stringify(pathCounts)}
@@ -589,7 +589,7 @@ ${logsSummary}
 Changelog / System Updates:
 1. Added dynamic visitor logging and tracking system.
 2. Built Admin Google Analytics Tag manager panel and layout script injector.
-3. Updated AI auditor cron checking frequency to 10 minutes with email PDF reports.
+3. Updated AI auditor cron checking frequency to 6 hours with email PDF reports.
 4. Embedded interactive codebase changelog timeline in admin dashboard.
 
 Please write a professional website audit assessment. Identify any system errors, catalog sync failures, or warnings. Analyze the visitor traffic patterns, and offer direct-response optimization ideas to improve the global B2B conversion rate. Keep the language direct, clear, and professional. Return only a clean, well-formatted response with no markdown tags.`;
@@ -627,7 +627,7 @@ Please write a professional website audit assessment. Identify any system errors
 
     // Write PDF layout
     doc.fontSize(22).fillColor("#0ea5e9").text("Ali CNC SMC Ptv Ltd", { align: "center" });
-    doc.fontSize(16).fillColor("#0f172a").text("10-Minute AI System Health & Traffic Report", { align: "center" });
+    doc.fontSize(16).fillColor("#0f172a").text("6-Hour AI System Health & Traffic Report", { align: "center" });
     doc.moveDown();
     doc.fontSize(10).fillColor("#475569").text(`Generated: ${localTimeStr} (PKT)`, { align: "right" });
     doc.moveDown();
@@ -638,7 +638,7 @@ Please write a professional website audit assessment. Identify any system errors
     doc.text(`WhatsApp Bridge Status: ${clientStatus}`);
     doc.moveDown();
 
-    doc.fontSize(14).fillColor("#0ea5e9").text("2. 10-Minute Visitor Traffic Metrics");
+    doc.fontSize(14).fillColor("#0ea5e9").text("2. 6-Hour Visitor Traffic Metrics");
     doc.fontSize(11).fillColor("#0f172a").text(`Total Page Visits: ${totalVisits}`);
     doc.text(`Unique Visitors (IP-based): ${uniqueVisitors}`);
     doc.text(`Page Hit Frequencies:`);
@@ -646,7 +646,7 @@ Please write a professional website audit assessment. Identify any system errors
       doc.text(`  - ${path}: ${count} hits`);
     });
     if (Object.keys(pathCounts).length === 0) {
-      doc.text(`  - No visitor traffic logged in the last 10 minutes.`);
+      doc.text(`  - No visitor traffic logged in the last 6 hours.`);
     }
     doc.moveDown();
 
@@ -664,7 +664,7 @@ Please write a professional website audit assessment. Identify any system errors
       "- Mobile styling & UI overrides: Removed region-specific friction (KakaoTalk, Line removed), corrected project grid overlays.",
       "- Dynamic Google Analytics settings: Saved and updated GA Measurement tags dynamically, and injected script in layout.",
       "- Silent visitor traffic logging: Tracked visitors silently in the background and logged parameters to Supabase.",
-      "- 10-Minute AI Audit Engine: Switched cron interval to 10 minutes with beautifully formatted PDF reports."
+      "- 6-Hour AI Audit Engine: Switched cron interval to 6 hours with beautifully formatted PDF reports."
     ];
     doc.fontSize(9).fillColor("#0f172a");
     changelogItems.forEach(item => doc.text(item));
@@ -686,10 +686,10 @@ Please write a professional website audit assessment. Identify any system errors
     const { error: mailErr } = await resend.emails.send({
       from: "Ali CNC Auditor <onboarding@resend.dev>",
       to: adminEmail,
-      subject: `🕒 10-Minute AI Audit Report - ${localTimeStr}`,
+      subject: `🕒 6-Hour AI Audit Report - ${localTimeStr}`,
       html: `
         <h3>Ali CNC System Audit Report</h3>
-        <p>A new 10-minute automated health check and visitor traffic assessment has been compiled via Gemini AI.</p>
+        <p>A new 6-hour automated health check and visitor traffic assessment has been compiled via Gemini AI.</p>
         <p><b>Report Time:</b> ${localTimeStr} (PKT)</p>
         <p>Please find the comprehensive audit and engineering changelog attached as a PDF.</p>
       `,
@@ -701,16 +701,16 @@ Please write a professional website audit assessment. Identify any system errors
       ]
     });
 
-    if (mailErr) console.error("Error sending 10-minute report:", mailErr);
-    else console.log(`10-minute health report emailed successfully as ${uniqueFilename}`);
+    if (mailErr) console.error("Error sending 6-hour report:", mailErr);
+    else console.log(`6-hour health report emailed successfully as ${uniqueFilename}`);
 
   } catch (err) {
-    console.error("Failed to run 10-minute health check:", err);
+    console.error("Failed to run 6-hour health check:", err);
   }
 }
 
-// Cron scheduler for 10-minute checks
-cron.schedule("*/10 * * * *", runDailyHealthCheck);
+// Cron scheduler for 6-hour checks
+cron.schedule("0 */6 * * *", runDailyHealthCheck);
 
 // 9. API Routes Configuration
 
