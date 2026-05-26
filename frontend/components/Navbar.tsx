@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X, Sun, Moon, Phone, Mail } from "lucide-react";
+import { Menu, X, Sun, Moon, Phone, Mail, Globe } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
@@ -52,7 +52,7 @@ export default function Navbar() {
           <a href="/#experience" onClick={() => setMenuOpen(false)}>{t("nav.experience")}</a>
           <a href="/#faq" onClick={() => setMenuOpen(false)}>{t("nav.faq")}</a>
           
-          <div className="nav-actions">
+          <div className="nav-actions" style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
             {mounted && (
               <button 
                 className="theme-toggle" 
@@ -62,6 +62,12 @@ export default function Navbar() {
                 {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
               </button>
             )}
+
+            {/* Globe Switcher Link to Dedicated Korean Page */}
+            <a href="/ko" className="lang-link" style={{ display: 'flex', gap: '5px', alignItems: 'center', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+              <Globe size={16} />
+              <span>한국어 (KO)</span>
+            </a>
           </div>
 
           <a href="/#contact" className="btn-primary nav-btn" onClick={() => setMenuOpen(false)}>

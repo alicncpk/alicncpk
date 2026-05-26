@@ -11,7 +11,19 @@ export default function Home() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    // Silent background visitor traffic analytics tracking
+    // 1. Hard-coded auto-redirection for South Korean users (browser locale or KST timezone check)
+    const isKoreanLocale = navigator.languages
+      ? navigator.languages.some(lang => lang.toLowerCase().startsWith("ko"))
+      : (navigator.language || "").toLowerCase().startsWith("ko");
+
+    const isKoreanTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone === "Asia/Seoul";
+
+    if (isKoreanLocale || isKoreanTimezone) {
+      window.location.href = "/ko";
+      return;
+    }
+
+    // 2. Silent background visitor traffic analytics tracking for global users
     fetch("/api/proxy?endpoint=/api/log-visit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
