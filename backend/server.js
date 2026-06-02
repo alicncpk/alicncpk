@@ -485,7 +485,7 @@ setInterval(async () => {
       const frontendLoginUrl = `${process.env.FRONTEND_URL || "http://localhost:3000"}/admin/whatsapp`;
 
       const { data, error } = await resend.emails.send({
-        from: "Ali CNC Ptv Ltd Alerts <onboarding@resend.dev>",
+        from: "Ali CNC Private Limited Alerts <onboarding@resend.dev>",
         to: adminEmail,
         subject: "🚨 Action Required: WhatsApp Connection Broken",
         html: `
@@ -494,7 +494,7 @@ setInterval(async () => {
           <p>To reconnect, please visit your Admin dashboard and link the device using your phone number:</p>
           <a href="${frontendLoginUrl}" style="display:inline-block;padding:10px 20px;background:#0ea5e9;color:white;text-decoration:none;border-radius:8px;font-weight:bold;">Reconnect Device Now</a>
           <br/><br/>
-          <p>Thank you,<br/>Ali CNC Ptv Ltd System Monitor</p>
+          <p>Thank you,<br/>Ali CNC Private Limited System Monitor</p>
         `
       });
 
@@ -571,7 +571,7 @@ async function runDailyHealthCheck() {
     let auditSummary = "Gemini Auditor not configured.";
 
     if (geminiApiKey) {
-      const prompt = `You are a world-class AI website auditor and B2B system analytics analyst for "Ali CNC Ptv Ltd".
+      const prompt = `You are a world-class AI website auditor and B2B system analytics analyst for "Ali CNC Private Limited".
 Review the following live system status and visitor logs captured in the last 6 hours:
 
 - Frontend URL Status: ${frontendStatus}
@@ -626,7 +626,7 @@ Please write a professional website audit assessment. Identify any system errors
     const localTimeStr = now.toLocaleString("en-US", { timeZone: "Asia/Karachi" });
 
     // Write PDF layout
-    doc.fontSize(22).fillColor("#0ea5e9").text("Ali CNC Ptv Ltd", { align: "center" });
+    doc.fontSize(22).fillColor("#0ea5e9").text("Ali CNC Private Limited", { align: "center" });
     doc.fontSize(16).fillColor("#0f172a").text("6-Hour AI System Health & Traffic Report", { align: "center" });
     doc.moveDown();
     doc.fontSize(10).fillColor("#475569").text(`Generated: ${localTimeStr} (PKT)`, { align: "right" });
@@ -684,11 +684,11 @@ Please write a professional website audit assessment. Identify any system errors
     const uniqueFilename = `ali_cnc_audit_${dateFormattedStr}_${timeFormattedStr}.pdf`;
 
     const { error: mailErr } = await resend.emails.send({
-      from: "Ali CNC Ptv Ltd Auditor <onboarding@resend.dev>",
+      from: "Ali CNC Private Limited Auditor <onboarding@resend.dev>",
       to: adminEmail,
       subject: `🕒 6-Hour AI Audit Report - ${localTimeStr}`,
       html: `
-        <h3>Ali CNC Ptv Ltd System Audit Report</h3>
+        <h3>Ali CNC Private Limited System Audit Report</h3>
         <p>A new 6-hour automated health check and visitor traffic assessment has been compiled via Gemini AI.</p>
         <p><b>Report Time:</b> ${localTimeStr} (PKT)</p>
         <p>Please find the comprehensive audit and engineering changelog attached as a PDF.</p>
