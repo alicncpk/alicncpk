@@ -349,7 +349,7 @@ export default function AdminDashboard() {
               System Changelog & Developer Milestones
             </h3>
             <p style={{ fontSize: "0.9rem", color: "var(--text-secondary)", marginBottom: "2rem" }}>
-              This timeline lists the developer updates, B2B CRO copywriting optimizations, and monitoring features implemented across the Ali CNC platform.
+              This timeline lists the developer updates, B2B CRO copywriting optimizations, and monitoring features implemented across the Ali CNC Ptv Ltd platform.
             </p>
 
             <div className="timeline">
