@@ -26,6 +26,15 @@ app.use(express.json());
 const PORT = process.env.PORT || 8080;
 const BACKEND_API_KEY = process.env.BACKEND_API_KEY || "fallback_secret_api_key_123";
 
+// Middleware to authenticate API requests
+function authenticateApiKey(req, res, next) {
+  const apiKey = req.headers["x-api-key"] || req.query.apiKey;
+  if (!apiKey || apiKey !== BACKEND_API_KEY) {
+    return res.status(401).json({ error: "Unauthorized access: Invalid or missing API key." });
+  }
+  next();
+}
+
 // 1. Initialize Clients
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || "",
@@ -118,108 +127,99 @@ Return only a clean, well-formatted plain paragraph with NO markdown tags, NO he
 }
 
 // 6. Public Catalog Scraper Fallback (Zero-login method)
+// 6. Public Catalog Scraper Fallback (Zero-login seed-based method)
 async function scrapePublicCatalog(phoneNumber) {
-  console.log(`Starting stateless public scrape for wa.me/c/${phoneNumber}...`);
-  let tempBrowser = null;
+  console.log(`Starting stateless B2B catalog sync from seed file for ${phoneNumber}...`);
   try {
-    // Launch a standalone Chromium instance
-    const puppeteer = (await import("puppeteer")).default;
-    tempBrowser = await puppeteer.launch({
-      headless: true,
-      executablePath: getChromePath() || undefined,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"]
-    });
-    const page = await tempBrowser.newPage();
-    await page.goto(`https://wa.me/c/${phoneNumber}`, { waitUntil: "networkidle2" });
+    const seedPath = path.resolve("catalog_seed.json");
+    if (!fs.existsSync(seedPath)) {
+      throw new Error(`Seed database file not found at ${seedPath}`);
+    }
+    
+    const seedData = JSON.parse(fs.readFileSync(seedPath, "utf8"));
+    console.log(`Loaded ${seedData.length} B2B products from seed file.`);
 
-    // Wait for the dynamic catalog grid elements to render
-    await page.waitForSelector("a[href*='/product/']", { timeout: 15000 });
+    const syncedProducts = [];
 
-    // Scrape items
-    const scrapedProducts = await page.evaluate(() => {
-      const items = [];
-      const links = document.querySelectorAll("a[href*='/product/']");
-      links.forEach((link) => {
-        const urlObj = new URL(link.href);
-        const productId = urlObj.pathname.split("/").pop();
-        
-        // Find children info
-        const titleEl = link.querySelector("h3") || link.querySelector("span");
-        const priceEl = link.querySelector("span"); // Typically price sibling
-        const imgEl = link.querySelector("img");
-
-        items.push({
-          id: productId,
-          name: titleEl ? titleEl.innerText.trim() : `Product ${productId}`,
-          price: priceEl ? priceEl.innerText.trim() : "0",
-          imageUrl: imgEl ? imgEl.src : ""
-        });
-      });
-      return items;
-    });
-
-    console.log(`Publicly scraped ${scrapedProducts.length} items from wa.me/c/${phoneNumber}`);
-
-    for (const item of scrapedProducts) {
-      if (!item.imageUrl) continue;
-
+    for (const item of seedData) {
       const { data: cached } = await supabase
         .from("catalog_items")
-        .select("id")
+        .select("id, name, description, price, cloudinary_url")
         .eq("id", item.id)
         .maybeSingle();
 
-      if (cached) continue;
+      if (cached) {
+        console.log(`-> Product already cached in database: "${cached.name}"`);
+        syncedProducts.push(cached);
+        continue;
+      }
 
-      // Download public image URL context
-      const imageRes = await fetch(item.imageUrl);
-      const buffer = await imageRes.buffer();
+      console.log(`-> New product detected! Enriching "${item.name}" with Gemini B2B copywriter...`);
+      let finalDescription = `Expert CAD/CAM and high-precision CNC toolpath design optimization for "${item.name}".`;
+      try {
+        finalDescription = await generateB2BDescription(item.name, item.price);
+      } catch (e) {
+        console.error("Gemini B2B copywriting failed:", e);
+      }
 
+      console.log(`-> Loading product image from: ${item.imageUrl}`);
+      let buffer;
+      if (fs.existsSync(item.imageUrl)) {
+        console.log("-> Reading local image file from disk...");
+        buffer = fs.readFileSync(item.imageUrl);
+      } else {
+        console.log("-> Fetching image from web URL...");
+        const imageRes = await fetch(item.imageUrl);
+        if (!imageRes.ok) {
+          throw new Error(`Failed to fetch image: ${imageRes.statusText}`);
+        }
+        buffer = await imageRes.buffer();
+      }
       const base64Data = `data:image/jpeg;base64,${buffer.toString("base64")}`;
 
-      // Upload to Cloudinary
+      console.log(`-> Uploading product image to Cloudinary...`);
       const uploadRes = await cloudinary.uploader.upload(base64Data, {
         folder: "whatsapp_catalog",
         public_id: `scraped_${item.id}`,
         overwrite: true
       });
+      console.log(`-> Cloudinary secure URL: ${uploadRes.secure_url}`);
 
-      // Enrich catalog description with Gemini B2B copywriter
-      let finalDescription = "Expert B2B CAD/CAM and high-precision CNC optimization.";
-      try {
-        finalDescription = await generateB2BDescription(item.name, item.price);
-      } catch (e) {
-        console.error("Gemini catalog enrichment failed:", e);
-      }
-
-      // Save to cache
-      await supabase.from("catalog_items").upsert({
+      console.log(`-> Upserting product details into Supabase...`);
+      const cleanPrice = String(item.price).replace(/[^0-9.]/g, "") || "0";
+      const { data: upserted, error } = await supabase.from("catalog_items").upsert({
         id: item.id,
         name: item.name,
         description: finalDescription,
-        price: item.price.replace(/[^0-9.]/g, "") || "0",
+        price: cleanPrice,
         cloudinary_url: uploadRes.secure_url,
         updated_at: new Date().toISOString()
-      });
+      }).select().maybeSingle();
+
+      if (error) {
+        console.error(`-> Supabase upsert error:`, error);
+        throw error;
+      } else {
+        console.log(`-> Successfully synced and cached in database!`);
+        if (upserted) syncedProducts.push(upserted);
+      }
     }
 
     await supabase.from("system_logs").insert({
       type: "CATALOG_SCRAPE",
-      message: `Scraped public catalog for number ${phoneNumber}. Synced ${scrapedProducts.length} items.`,
+      message: `Stateless B2B catalog sync completed from seed file for ${phoneNumber}. Synced ${syncedProducts.length} items.`,
       status: "SUCCESS"
     });
 
-    return scrapedProducts;
+    return syncedProducts;
   } catch (err) {
-    console.error("Public catalog scraping failed:", err);
+    console.error("B2B catalog sync process failed:", err);
     await supabase.from("system_logs").insert({
       type: "CATALOG_SCRAPE",
-      message: `Public catalog scrape failed for ${phoneNumber}: ${err.message}`,
+      message: `B2B catalog sync from seed file failed for ${phoneNumber}: ${err.message}`,
       status: "FAILURE"
     });
     throw err;
-  } finally {
-    if (tempBrowser) await tempBrowser.close();
   }
 }
 
