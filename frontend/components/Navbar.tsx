@@ -41,7 +41,7 @@ export default function Navbar() {
         <Link href="/" className="logo">
           {/* Using the vectorized logo */}
           <div className="logo-img-wrapper">
-            <Image src="/logo_final.png" alt="Ali CNC Private Limited Logo" width={80} height={44} priority className="logo-img" style={{ width: 'auto', height: '100%' }} />
+            <Image src="/logo_final.svg" alt="Ali CNC Private Limited Logo" width={80} height={44} priority className="logo-img" style={{ width: 'auto', height: '100%' }} />
           </div>
           <span className="logo-text">Ali<span className="gradient-text">CNC Private Limited</span></span>
         </Link>

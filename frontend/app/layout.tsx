@@ -23,8 +23,8 @@ export const metadata: Metadata = {
     canonical: "https://www.alicnc.online",
   },
   icons: {
-    icon: "/logo_final.png",
-    apple: "/logo_final.png",
+    icon: "/logo_final.svg",
+    apple: "/logo_final.svg",
   },
   openGraph: {
     type: "website",
@@ -100,7 +100,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable}`} suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/logo_final.png" />
+        <link rel="icon" href="/logo_final.svg" />
         
         {/* JSON-LD Structured Data */}
         <script

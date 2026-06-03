@@ -52,7 +52,7 @@ export default function KoreanHome() {
         <div className="nav-content">
           <a href="/ko" className="logo">
             <div className="logo-img-wrapper">
-              <Image src="/logo_final.png" alt="Ali CNC Private Limited Logo" width={80} height={44} priority className="logo-img" style={{ width: 'auto', height: '100%' }} />
+              <Image src="/logo_final.svg" alt="Ali CNC Private Limited Logo" width={80} height={44} priority className="logo-img" style={{ width: 'auto', height: '100%' }} />
             </div>
             <span className="logo-text">Ali<span className="gradient-text">CNC Private Limited</span></span>
           </a>
@@ -99,7 +99,7 @@ export default function KoreanHome() {
           <Image src="/hero_bg.png" alt="High-Precision CNC Woodshop Floor" fill priority className="hero-bg-image" style={{ objectFit: 'cover', opacity: 0.1 }} />
           <div className="hero-content">
             <div style={{ marginBottom: '2rem' }}>
-              <Image src="/logo_final.png" alt="Ali CNC Private Limited Logo" width={220} height={120} priority style={{ margin: '0 auto', objectFit: 'contain', height: 'auto' }} />
+              <Image src="/logo_final.svg" alt="Ali CNC Private Limited Logo" width={220} height={120} priority style={{ margin: '0 auto', objectFit: 'contain', height: 'auto' }} />
             </div>
             <span className="hero-greeting" style={{ display: 'block', marginBottom: '1rem', fontWeight: 600, color: 'var(--accent-color)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
               우리는 도면을 설계하고, 대표님은 스핀들을 돌립니다.™

@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <style>
+    .logo-gear {
+      fill: none;
+      stroke: var(--text-primary, #0f172a);
+      stroke-width: 7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .logo-spindle {
+      fill: none;
+      stroke: var(--accent-color, #0ea5e9);
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .logo-bit {
+      fill: var(--accent-color, #0ea5e9);
+      stroke: var(--accent-color, #0ea5e9);
+      stroke-width: 2;
+      stroke-linejoin: round;
+    }
+    .logo-circuit-line {
+      fill: none;
+      stroke: var(--accent-color, #0ea5e9);
+      stroke-width: 3.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .logo-node {
+      fill: var(--accent-color, #0ea5e9);
+    }
+    .logo-text-brand {
+      fill: var(--text-primary, #0f172a);
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 900;
+      font-size: 28px;
+      letter-spacing: -0.01em;
+    }
+    .logo-text-sub {
+      fill: var(--text-secondary, #475569);
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-weight: 800;
+      font-size: 11.5px;
+      letter-spacing: 0.18em;
+    }
+  </style>
+  
+  <!-- Outer Gear Symbol (Top Open) -->
+  <path d="M 68,55 
+           A 46,46 0 0 0 54,80 
+           L 44,82 
+           C 40,83 40,91 44,92 
+           L 54,94 
+           A 46,46 0 0 0 66,118 
+           L 58,126 
+           C 54,130 60,136 64,132 
+           L 72,124 
+           A 46,46 0 0 0 100,134
+           A 46,46 0 0 0 128,124
+           L 136,132
+           C 140,136 146,130 142,126
+           L 134,118
+           A 46,46 0 0 0 146,94
+           L 156,92
+           C 160,91 160,83 156,82
+           L 146,80
+           A 46,46 0 0 0 132,55" 
+        class="logo-gear" />
+
+  <!-- Spindle / Router Housing (U-Shape) -->
+  <path d="M 80,44 L 80,88 A 20,20 0 0 0 120,88 L 120,44" class="logo-spindle" />
+  
+  <!-- Spindle Collet & Bit -->
+  <path d="M 87,108 L 113,108 L 113,114 L 87,114 Z" class="logo-bit" />
+  <path d="M 93,114 L 107,114 L 104,121 L 96,121 Z" class="logo-bit" />
+  <path d="M 97,121 L 103,121 L 100,134 Z" class="logo-bit" />
+
+  <!-- Vertical Circuit Lines Inside the Spindle -->
+  <line x1="90" y1="44" x2="90" y2="76" class="logo-circuit-line" />
+  <circle cx="90" cy="76" r="4.5" class="logo-node" />
+  
+  <line x1="100" y1="44" x2="100" y2="88" class="logo-circuit-line" />
+  <circle cx="100" cy="88" r="4.5" class="logo-node" />
+
+  <line x1="110" y1="44" x2="110" y2="70" class="logo-circuit-line" />
+  <circle cx="110" cy="70" r="4.5" class="logo-node" />
+
+  <!-- Top Circuit Lines Emerging Upward -->
+  <!-- Left Upward -->
+  <path d="M 86,44 L 86,30 L 76,20" class="logo-circuit-line" />
+  <circle cx="76" cy="20" r="4.5" class="logo-node" />
+
+  <!-- Middle Upward -->
+  <line x1="100" y1="44" x2="100" y2="16" class="logo-circuit-line" />
+  <circle cx="100" cy="16" r="4.5" class="logo-node" />
+
+  <!-- Right Upward -->
+  <path d="M 114,44 L 114,30 L 124,20" class="logo-circuit-line" />
+  <circle cx="124" cy="20" r="4.5" class="logo-node" />
+
+  <!-- Side Circuit Lines Emerging Left/Right -->
+  <!-- Upper Left -->
+  <path d="M 80,54 L 62,54 L 52,44" class="logo-circuit-line" />
+  <circle cx="52" cy="44" r="4.5" class="logo-node" />
+
+  <!-- Lower Left -->
+  <path d="M 80,78 L 56,78 L 46,88" class="logo-circuit-line" />
+  <circle cx="46" cy="88" r="4.5" class="logo-node" />
+
+  <!-- Upper Right -->
+  <line x1="120" y1="54" x2="146" y2="54" class="logo-circuit-line" />
+  <circle cx="146" cy="54" r="4.5" class="logo-node" />
+
+  <!-- Middle Right -->
+  <path d="M 120,68 L 132,68 L 142,58" class="logo-circuit-line" />
+  <circle cx="142" cy="58" r="4.5" class="logo-node" />
+
+  <!-- Lower Right -->
+  <line x1="120" y1="82" x2="148" y2="82" class="logo-circuit-line" />
+  <circle cx="148" cy="82" r="4.5" class="logo-node" />
+
+  <!-- Typography -->
+  <text x="100" y="162" text-anchor="middle" class="logo-text-brand">ALI CNC</text>
+  <text x="100" y="185" text-anchor="middle" class="logo-text-sub">PRIVATE LIMITED</text>
+</svg>
